@@ -1,18 +1,24 @@
 import Player from '@vimeo/player';
-const throttle = require('lodash.throttle');
+import throttle from 'lodash.throttle';
 
 const iframe = document.querySelector('iframe');
 const player = new Player(iframe);
 
 function currentVideoTime() {
-  player.on('timeupdate', function () {
-    let value = 0;
-    value += event.data.data.seconds;
+  player.on(
+    'timeupdate',
+    throttle(function (event) {
+      // не розумію, чому коли я передав у метод "throttle" - event, то я відразу отримав доступ до об'єкта з доступом до тайм лайну.
+      //До цього я використовував повний шлях event.data.data.seconds
+      // console.log(event);
+      let value = 0;
+      console.log(event.seconds);
+      value += event.seconds;
 
-    localStorage.setItem('videoplayer-current-time', value);
-  });
+      localStorage.setItem('videoplayer-current-time', value);
+    }, 1000)
+  );
 }
-
 currentVideoTime();
 
 const currentBreakpoint = localStorage.getItem('videoplayer-current-time');
