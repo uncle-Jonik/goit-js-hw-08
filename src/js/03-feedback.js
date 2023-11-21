@@ -4,13 +4,10 @@ const form = document.querySelector('.feedback-form');
 const localStorageKey = 'feedback-form-state';
 //
 //
-const savedData = localStorage.getItem(localStorageKey);
-const parsedData = JSON.parse(savedData);
-//
-//
-
 function chekInputValue() {
   // перевірка чи заповненні поля email та message
+  const savedData = localStorage.getItem(localStorageKey);
+  const parsedData = JSON.parse(savedData);
   if (parsedData === null) {
     return;
   }
@@ -23,6 +20,17 @@ chekInputValue();
 form.addEventListener('input', throttle(onInputListener, 500));
 function onInputListener(evt) {
   // створення та запис данних до локального сховища
+
+  // тут мені допоміг ментор, але я не розумію чим це відрізняється від evt.currentTarget[0].value,
+  /*
+   * допоможіть пофіксити помилку.Вона постійно виникає коли throttle(func, 500).
+   * Якщо прибрати throttle, або поставити на значення 0 все працює чудово.
+   * Я намагався гуглити проблему і якось розібратися, але не вдалося.
+   * Рекомендувалося використати debounce, але це не по умові задачі.
+   *
+   * Дана помилка відбувається коли я швидко ввожу данні, якщо це робити повільно працює все нормально.
+   *
+   */
   const enteredData = {
     email: form.email.value,
     message: form.message.value,
@@ -39,6 +47,8 @@ form.addEventListener('submit', onSubmitListener);
 function onSubmitListener(evt) {
   //очистка сховища та даних в полях
   evt.preventDefault();
+  const savedData = localStorage.getItem(localStorageKey);
+  const parsedData = JSON.parse(savedData);
   console.log(parsedData);
   localStorage.removeItem(localStorageKey);
   form.reset();
