@@ -49,6 +49,9 @@ function onSubmitListener(evt) {
   evt.preventDefault();
   const savedData = localStorage.getItem(localStorageKey);
   const parsedData = JSON.parse(savedData);
+  if (parsedData.email === '' || parsedData.message === '') {
+    return alert('All fields must be filled!');
+  }
   console.log(parsedData);
   localStorage.removeItem(localStorageKey);
   form.reset();

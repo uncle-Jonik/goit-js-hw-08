@@ -21,5 +21,7 @@ function currentVideoTime() {
 }
 currentVideoTime();
 
-const currentBreakpoint = localStorage.getItem('videoplayer-current-time');
-player.setCurrentTime(currentBreakpoint);
+const currentBreakpoint =
+  localStorage.getItem('videoplayer-current-time') !== null
+    ? player.setCurrentTime(currentBreakpoint)
+    : player.setCurrentTime(0);
