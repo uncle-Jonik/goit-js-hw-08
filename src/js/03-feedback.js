@@ -33,7 +33,7 @@ function onInputListener(evt) {
    */
   const enteredData = {
     email: form.email.value,
-    message: form.message.value,
+    message: form.message.value.trim(),
   };
 
   localStorage.setItem(localStorageKey, JSON.stringify(enteredData));
@@ -49,6 +49,13 @@ function onSubmitListener(evt) {
   evt.preventDefault();
   const savedData = localStorage.getItem(localStorageKey);
   const parsedData = JSON.parse(savedData);
+
+  // перевірка данних перед сабмітом
+
+  // хотів зробити через функцію, але не вийшло. Так наче працює)
+  if (parsedData === null) {
+    return alert('All fields must be filled!');
+  }
   if (parsedData.email === '' || parsedData.message === '') {
     return alert('All fields must be filled!');
   }
